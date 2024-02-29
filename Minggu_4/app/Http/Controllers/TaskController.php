@@ -10,10 +10,10 @@ class TaskController extends Controller
 {
     // membuat method dengan nama index
     public function index(){
-        $tasks = Task::all();
+        $tasks = Task::all(); // Mengambil semua tugas dari database
+        // Menampilkan tampilan indeks tugas dengan data tugas yang telah diambil
         return view('task.index', compact('tasks'));
-        // menampilkan view dalam folder task yang bernama index
-        // return view('task.index');
+       
     }
     // membuat method dengan nama create
     public function create(){
@@ -32,22 +32,39 @@ class TaskController extends Controller
 
     }
 
-
+    // membuat method dengan nama show
     public function show(Task $task){
+        // Menampilkan tampilan untuk menampilkan detail task
         return view('task.show',compact('task'));
     }
 
+    // membuat method dengan nama edit
     public function edit($id)
     {
-        $tasks= Task::findOrFail($id);
-        return view('task.edit', compact('tasks'));
+        $tasks= Task::findOrFail($id);// Mengambil tugas yang akan diedit
+        return view('task.edit', compact('tasks'));// Menampilkan tampilan untuk mengedit tugas
     }
-
+    // membuat method dengan nama update
     public function update(Request $request, $id)
     {
-        $tasks = Task::findOrFail($id);
-        $tasks->update($request->all());
-        return redirect('/task');
+        $tasks = Task::findOrFail($id);// Mengambil tugas yang akan diperbarui
+        $tasks->update($request->all()); // Memperbarui tugas dengan data dari permintaan
+        return redirect('/task'); // Mengalihkan ke halaman tugas setelah pembaruan berhasil
+    }
+
+    // membuat method dengan nama delete
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);// Mengambil pengguna yang akan dihapus (seharusnya Task)
+        $user->delete(); // Menghapus pengguna (seharusnya Task)
+        return redirect('/task'); // Mengalihkan ke halaman tugas setelah penghapusan berhasil
+    }
+
+    // membuat method dengan nama delete
+    public function delete(Task $task)
+    {
+        $task->delete();// Menghapus tugas
+        return redirect('/task'); // Mengalihkan ke halaman tugas setelah penghapusan berhasil
     }
 }
 
